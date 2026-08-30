@@ -14,6 +14,8 @@
   --cuk-sidebar-bg: #dbe4f0;
   --cuk-gold: #c68a00;
   --cuk-gold-dark: #996a00;
+  --cuk-green-dark: #0b532c;
+  --cuk-green-light: #e6f4ea;
   --win-bg: #ecefe6;
   --win-content-bg: #f8fafc;
   --win-border-dark: #64748b;
@@ -231,6 +233,8 @@ body {
   border-radius: 2px;
   font-size: 10.5px;
   cursor: pointer;
+  width: 100%;
+  text-align: left;
 }
 
 .nav-link:hover {
@@ -298,7 +302,6 @@ body {
   z-index: 5;
 }
 
-/* Content Window Frame */
 .window-panel {
   background: #ffffff;
   border: 1px solid var(--cuk-blue-mid);
@@ -325,7 +328,7 @@ body {
 .panel-frame-title {
   background: linear-gradient(to bottom, #475569 0%, #334155 100%);
   color: #ffffff;
-  padding: 3px 8px;
+  padding: 4px 8px;
   font-weight: bold;
   font-size: 10.5px;
   display: flex;
@@ -348,7 +351,7 @@ body {
 .erp-table th {
   background: linear-gradient(to bottom, #e2e8f0 0%, #cbd5e1 100%);
   border: 1px solid #94a3b8;
-  padding: 3px 6px;
+  padding: 4px 6px;
   text-align: left;
   font-weight: bold;
   color: #1e293b;
@@ -357,7 +360,7 @@ body {
 
 .erp-table td {
   border: 1px solid #cbd5e1;
-  padding: 3px 6px;
+  padding: 4px 6px;
   vertical-align: middle;
 }
 
@@ -385,7 +388,7 @@ body {
 /* Grid Key-Value Forms */
 .kv-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
   gap: 6px;
   margin-bottom: 8px;
 }
@@ -408,6 +411,76 @@ body {
   font-size: 11px;
   color: #0f172a;
   font-weight: bold;
+}
+
+.exam-card-wrapper {
+  background: #ffffff;
+  border: 2px solid var(--cuk-blue-dark);
+  padding: 16px;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.exam-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 2px solid var(--cuk-gold);
+  padding-bottom: 10px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.exam-card-logo {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 2px solid var(--cuk-gold);
+  object-fit: cover;
+  background: #ffffff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  flex-shrink: 0;
+}
+
+.exam-card-stamp {
+  border: 2px dashed #0b532c;
+  background: #f0fdf4;
+  color: #0b532c;
+  font-size: 9.5px;
+  font-weight: bold;
+  text-align: center;
+  padding: 6px 12px;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+  line-height: 1.3;
+  box-shadow: inset 0 0 4px rgba(11, 83, 44, 0.15);
+}
+
+.exam-photo-container {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 14px;
+  align-items: flex-start;
+}
+
+.exam-photo {
+  width: 105px;
+  height: 125px;
+  object-fit: cover;
+  border: 2px solid var(--cuk-blue-dark);
+  border-radius: 3px;
+  padding: 2px;
+  background: #fff;
+  flex-shrink: 0;
+}
+
+.signature-line {
+  border-bottom: 1px dotted #334155;
+  display: inline-block;
+  width: 160px;
+  height: 16px;
 }
 
 /* Modal Popup Window */
@@ -497,7 +570,7 @@ body {
   border-radius: 1px;
 }
 
-/* Responsive Collapsible Navigation for Tablets/Mobile */
+/* Responsive Collapsible Navigation for Mobile */
 .sidebar-toggle {
   display: none;
   background: var(--cuk-gold);
@@ -521,6 +594,21 @@ body {
   .sidebar.show { display: block; }
   .workspace { padding: 4px; }
   .user-details span { display: none; }
+  .exam-photo-container { flex-direction: column; }
+}
+
+/* Printable Exam Card Optimization */
+@media print {
+  body { background: #ffffff; font-size: 12px; }
+  .app-header, .win-toolbar, .sidebar, .tab-container, #statusNotification, .btn-classic { display: none !important; }
+  .app-container { min-height: auto; display: block; }
+  .workspace { padding: 0; background: transparent; }
+  .window-panel { border: none; box-shadow: none; padding: 0; }
+  .panel-frame { border: none; }
+  .panel-frame-title { display: none; }
+  .page-view { display: none !important; }
+  .page-view#exam { display: block !important; }
+  .exam-card-wrapper { border: 2px solid #000; box-shadow: none; padding: 12px; }
 }
 </style>
 </head>
@@ -554,7 +642,7 @@ body {
 
 <div class="win-toolbar">
   <div class="toolbar-group">
-    <button class="btn-classic" onclick="window.print()">📄 Print Letter / Form</button>
+    <button class="btn-classic" onclick="window.print()">📄 Print Letter / Card</button>
     <button class="btn-classic" onclick="triggerAction('Apply Application Submitted')">📄 Apply</button>
     <button class="btn-classic" onclick="triggerAction('Record View Loaded')">📄 View</button>
     <button class="btn-classic" onclick="triggerAction('Search Index Query Active')">🔍 Find Record</button>
@@ -637,7 +725,6 @@ body {
       <button class="tab-btn" id="tab-tertiary" onclick="switchTab('tertiary')">Report Template & Documents</button>
     </div>
 
-    <!-- Main Content Panel Window -->
     <div class="window-panel">
       
       <!-- ================= 1. INDUSTRIAL ATTACHMENT / LOGBOOK MODULE ================= -->
@@ -729,7 +816,7 @@ body {
               <span>Final Industrial Attachment Technical Report Template</span>
             </div>
             <div class="panel-frame-body">
-              <p style="margin: 0 0 6px 0;">Official CUK SCIT Guidelines for Attachment Report Structure:</p>
+              <p style="margin: 0 0 6px 0;">Official CUK DCIT Guidelines for Attachment Report Structure:</p>
               <ul>
                 <li>Chapter 1: Organization Overview & Systems Architecture</li>
                 <li>Chapter 2: Technical Duties & Software Projects Handled</li>
@@ -759,10 +846,11 @@ body {
                 <div class="kv-item"><span class="kv-label">Reg Number</span><span class="kv-value">C028/404604/2024</span></div>
                 <div class="kv-item"><span class="kv-label">Degree</span><span class="kv-value">BSc Software Engineering</span></div>
                 <div class="kv-item"><span class="kv-label">School</span><span class="kv-value">Computing & Mathematics</span></div>
-                <div class="kv-item"><span class="kv-label">Year of Study</span><span class="kv-value">Year 2, Semester 2</span></div>
+                <div class="kv-item"><span class="kv-label">Year of Study</span><span class="kv-value">Year 2, Semester 1</span></div>
                 <div class="kv-item"><span class="kv-label">Campus</span><span class="kv-value">Main Campus (Karen)</span></div>
                 <div class="kv-item"><span class="kv-label">Email</span><span class="kv-value">happy24.ndivo@student.cuk.ac.ke</span></div>
                 <div class="kv-item"><span class="kv-label">National ID</span><span class="kv-value">192375737</span></div>
+                <div class="kv-item"><span class="kv-label">Date Of Birth</span><span class="kv-value">26th November 2006</span></div>
               </div>
             </div>
           </div>
@@ -772,7 +860,7 @@ body {
       <!-- ================= 3. UNIT REGISTRATION MODULE ================= -->
       <section id="units" class="page-view">
         <div class="panel-frame">
-          <div class="panel-frame-title">Course Unit Registration — Year 2 Semester 1</div>
+          <div class="panel-frame-title">Course Unit Registration — Year 3 Semester 1</div>
           <div class="panel-frame-body">
             <table class="erp-table">
               <thead>
@@ -786,13 +874,13 @@ body {
                 </tr>
               </thead>
               <tbody>
-                <tr><td><b>SET 2101</b></td><td>Software Architecture & Design Patterns</td><td>Core</td><td>3.0</td><td><span class="status-badge status-approved">Confirmed</span></td><td><button class="btn-classic" disabled>Booked</button></td></tr>
-                <tr><td><b>SET 2102</b></td><td>Object-Oriented Software Engineering</td><td>Core</td><td>3.0</td><td><span class="status-badge status-approved">Confirmed</span></td><td><button class="btn-classic" disabled>Booked</button></td></tr>
-                <tr><td><b>SET 2103</b></td><td>Data Structures & Algorithms</td><td>Core</td><td>3.0</td><td><span class="status-badge status-approved">Confirmed</span></td><td><button class="btn-classic" disabled>Booked</button></td></tr>
-                <tr><td><b>SET 2104</b></td><td>Database Systems & Modeling</td><td>Core</td><td>3.0</td><td><span class="status-badge status-approved">Confirmed</span></td><td><button class="btn-classic" disabled>Booked</button></td></tr>
-                <tr><td><b>SET 2105</b></td><td>Web Application Frameworks</td><td>Core</td><td>3.0</td><td><span class="status-badge status-approved">Confirmed</span></td><td><button class="btn-classic" disabled>Booked</button></td></tr>
-                <tr><td><b>SET 2106</b></td><td>Mobile Application Development</td><td>Core</td><td>3.0</td><td><span class="status-badge status-approved">Confirmed</span></td><td><button class="btn-classic" disabled>Booked</button></td></tr>
-                <tr><td><b>SET 2107</b></td><td>Software Quality Assurance & Testing</td><td>Core</td><td>3.0</td><td><span class="status-badge status-approved">Confirmed</span></td><td><button class="btn-classic" disabled>Booked</button></td></tr>
+                <tr><td><b>SET 3101</b></td><td>Software Architecture & Design Patterns</td><td>Core</td><td>3.0</td><td><span class="status-badge status-approved">Confirmed</span></td><td><button class="btn-classic" disabled>Booked</button></td></tr>
+                <tr><td><b>SET 3102</b></td><td>Object-Oriented Software Engineering</td><td>Core</td><td>3.0</td><td><span class="status-badge status-approved">Confirmed</span></td><td><button class="btn-classic" disabled>Booked</button></td></tr>
+                <tr><td><b>BSSE 3103</b></td><td>Data Structures & Algorithms</td><td>Core</td><td>3.0</td><td><span class="status-badge status-approved">Confirmed</span></td><td><button class="btn-classic" disabled>Booked</button></td></tr>
+                <tr><td><b>BSSE 3104</b></td><td>Database Systems & Modeling</td><td>Core</td><td>3.0</td><td><span class="status-badge status-approved">Confirmed</span></td><td><button class="btn-classic" disabled>Booked</button></td></tr>
+                <tr><td><b>BCIM 3102</b></td><td>Web Application Frameworks</td><td>Core</td><td>3.0</td><td><span class="status-badge status-approved">Confirmed</span></td><td><button class="btn-classic" disabled>Booked</button></td></tr>
+                <tr><td><b>BCOM 3102</b></td><td>Mobile Application Development</td><td>Core</td><td>3.0</td><td><span class="status-badge status-approved">Confirmed</span></td><td><button class="btn-classic" disabled>Booked</button></td></tr>
+                <tr><td><b>BIT 3101</b></td><td>Software Quality Assurance & Testing</td><td>Core</td><td>3.0</td><td><span class="status-badge status-approved">Confirmed</span></td><td><button class="btn-classic" disabled>Booked</button></td></tr>
               </tbody>
             </table>
             <div style="margin-top: 8px;">
@@ -880,31 +968,79 @@ body {
       <section id="exam" class="page-view">
         <div class="panel-frame">
           <div class="panel-frame-title">
-            <span>Official Student Examination Card — Semester 1</span>
-            <button class="btn-classic" onclick="window.print()">🖨 Print Card</button>
+            <span>Official Student Examination Card — Semester 1 2025/2026</span>
+            <button class="btn-classic btn-primary" onclick="window.print()">🖨 Print Exam Card</button>
           </div>
           <div class="panel-frame-body">
-            <div style="border:1px stroke #000; padding:10px; background:#fff;">
-              <div style="text-align:center; border-bottom:2px solid #1b365d; padding-bottom:4px; margin-bottom:6px;">
-                <b style="font-size:12px; color:#1b365d;">THE CO-OPERATIVE UNIVERSITY OF KENYA</b><br>
-                <span style="font-size:10px; font-weight:bold;">OFFICIAL EXAMINATION ADMIT CARD</span>
+            <div class="exam-card-wrapper">
+              
+              <!-- Card Header with Official School Logo Image & Verification Stamp -->
+              <div class="exam-card-header">
+                <div style="display:flex; align-items:center; gap:12px;">
+                  <img src="https://i.pinimg.com/736x/36/b0/2d/36b02d11a8a7dca83c369c478057d48a.jpg" 
+                       alt="The Co-operative University of Kenya Logo" 
+                       class="exam-card-logo"
+                       onerror="this.onerror=null; this.src='https://placehold.co/100x100/1b365d/ffffff?text=CUK';" />
+                  <div>
+                    <h3 style="margin:0; color:var(--cuk-blue-dark); font-size:15px; font-weight:bold;">THE CO-OPERATIVE UNIVERSITY OF KENYA</h3>
+                    <small style="color:var(--cuk-gold-dark); font-weight:bold; letter-spacing:0.3px;">OFFICIAL SEMESTER EXAMINATION CARD</small>
+                  </div>
+                </div>
+                <div class="exam-card-stamp">
+                  ✔ VERIFIED &amp; CLEARED<br>SEMESTER 1 2025/2026
+                </div>
               </div>
-              <div class="kv-grid">
-                <div class="kv-item"><span class="kv-label">Name</span><span class="kv-value">Happy Caleb Ndivo</span></div>
-                <div class="kv-item"><span class="kv-label">Reg No</span><span class="kv-value">C028/404604/2024</span></div>
-                <div class="kv-item"><span class="kv-label">Course</span><span class="kv-value">BSc Software Engineering</span></div>
-                <div class="kv-item"><span class="kv-label">Status</span><span class="kv-value"><span class="status-badge status-approved">CLEARED & STAMPED</span></span></div>
+
+              <!-- Student Passport & Info Grid -->
+              <div class="exam-photo-container">
+                <img src="https://i.pinimg.com/736x/8c/42/91/8c42919d6e0b1ea21c8c639259adfd5d.jpg" 
+                     alt="Happy Caleb Ndivo Exam Passport" 
+                     class="exam-photo"
+                     onerror="this.src='https://placehold.co/110x130/1b365d/ffffff?text=Passport'">
+                
+                <div style="flex:1;" class="kv-grid">
+                  <div class="kv-item"><span class="kv-label">Student Name</span><span class="kv-value">Happy Caleb Ndivo</span></div>
+                  <div class="kv-item"><span class="kv-label">Registration Number</span><span class="kv-value">C028/404604/2024</span></div>
+                  <div class="kv-item"><span class="kv-label">Programme</span><span class="kv-value">BSc Software Engineering</span></div>
+                  <div class="kv-item"><span class="kv-label">School / Faculty</span><span class="kv-value">SCHOOL OF COMPUTING &amp; MATHEMATICS</span></div>
+                  <div class="kv-item"><span class="kv-label">Academic Year</span><span class="kv-value">Year 2, Semester 2</span></div>
+                  <div class="kv-item"><span class="kv-label">Clearance ID</span><span class="kv-value" style="color: #166534;">CLR-2026-9812</span></div>
+                </div>
               </div>
-              <table class="erp-table" style="margin-top:6px;">
-                <thead><tr><th>Code</th><th>Subject Title</th></tr></thead>
+
+              <!-- Eligible Examination Units Schedule -->
+              <h4 style="color:var(--cuk-blue-dark); margin: 12px 0 6px 0; border-bottom:1px solid var(--win-border-light); padding-bottom:4px; font-size:11px;">
+                Eligible Examination Units & Invigilator Sign-off Log
+              </h4>
+              <table class="erp-table">
+                <thead>
+                  <tr>
+                    <th style="width: 100px;">Unit Code</th>
+                    <th>Unit Name</th>
+                    <th style="width: 180px; text-align: center;">Invigilator Sign</th>
+                  </tr>
+                </thead>
                 <tbody>
-                  <tr><td>SET 2101</td><td>Software Architecture & Design Patterns</td></tr>
-                  <tr><td>SET 2102</td><td>Object-Oriented Software Engineering</td></tr>
-                  <tr><td>SET 2103</td><td>Data Structures & Algorithms</td></tr>
-                  <tr><td>SET 2104</td><td>Database Systems & Modeling</td><td></tr>
-                  <tr><td>SET 2105</td><td>Web Application Frameworks</td></tr>
+                  <tr><td><b>SET 2102</b></td><td>Software Architecture & Design Patterns</td><td style="text-align: center;"><span class="signature-line"></span></td></tr>
+                  <tr><td><b>BIT 2102</b></td><td>Object-Oriented Software Engineering</td><td style="text-align: center;"><span class="signature-line"></span></td></tr>
+                  <tr><td><b>BBET 2103</b></td><td>Data Structures & Algorithms</td><td style="text-align: center;"><span class="signature-line"></span></td></tr>
+                  <tr><td><b>BSSE 2001</b></td><td>Database Systems & Modeling</td><td style="text-align: center;"><span class="signature-line"></span></td></tr>
+                 
                 </tbody>
               </table>
+
+              <!-- Card Footer Notes & Registrar Seal -->
+              <div style="margin-top:16px; display:flex; justify-content:space-between; align-items:flex-end; gap: 10px;">
+                <div style="font-size:9.5px; color:#475569; line-height: 1.4;">
+                  * This card is invalid without the official University Registrar stamp or barcode verification.<br>
+                  * Must be presented alongside valid Student ID Card during all examination sessions.
+                </div>
+                <div style="text-align:center; min-width: 180px;">
+                  <div style="border-bottom:1px solid #000; width:180px; margin-bottom:4px; margin-left:auto; margin-right:auto;"></div>
+                  <small style="font-weight: bold; color: var(--cuk-blue-dark);">Registrar (Academic Affairs)</small>
+                </div>
+              </div>
+
             </div>
           </div>
         </div>
@@ -919,10 +1055,10 @@ body {
             <table class="erp-table">
               <thead><tr><th>Code</th><th>Title</th><th>CAT</th><th>Exam</th><th>Total</th><th>Grade</th></tr></thead>
               <tbody>
-                <tr><td>BSSE 2201</td><td>Database Management Systems Programming</td><td>28</td><td>58</td><td>86%</td><td><b>A</b></td></tr>
-                <tr><td>BMAT 2202</td><td>Discrete Mathematics for Computing</td><td>22</td><td>50</td><td>72%</td><td><b>B</b></td></tr>
-                <tr><td>SET 1203</td><td>Computer Systems Architecture</td><td>24</td><td>51</td><td>75%</td><td><b>A</b></td></tr>
-                <tr><td>BBIT 1204</td><td>Entreprenuership Skills</td><td>25</td><td>57</td><td>82%</td><td><b>A</b></td></tr>
+                <tr><td>BBE 2202</td><td>ENTERPRENEURSHIP SKILLS</td><td>28</td><td>58</td><td>86%</td><td><b>A</b></td></tr>
+                <tr><td>BMAT 2201</td><td>DISCRETE MATHEMATICS II</td><td>26</td><td>54</td><td>80%</td><td><b>A</b></td></tr>
+                <tr><td>BBIT 2202</td><td>DATABASE MANAGEMENT SYSTEMS PROGRAMMING</td><td>24</td><td>51</td><td>75%</td><td><b>A</b></td></tr>
+                <tr><td>BSSE 2204</td><td>SOFTWARE METRICS</td><td>25</td><td>49</td><td>74%</td><td><b>B</b></td></tr>
               </tbody>
             </table>
           </div>
@@ -937,8 +1073,8 @@ body {
             <table class="erp-table">
               <thead><tr><th>Unit Code & Name</th><th>Lecturer</th><th>Status</th><th>Action</th></tr></thead>
               <tbody>
-                <tr><td>SET 2102 - Software Architecture</td><td>Dr. Omondi</td><td><span class="status-badge status-pending">Pending</span></td><td><button class="btn-classic btn-primary" onclick="triggerAction('Evaluation Survey Opened.')">Evaluate</button></td></tr>
-                <tr><td>SET 2103 - Data Structures</td><td>Mr. Kamau</td><td><span class="status-badge status-approved">Completed</span></td><td><button class="btn-classic" disabled>Submitted</button></td></tr>
+                <tr><td>SET 2101 - Software Architecture</td><td>Dr. Omondi</td><td><span class="status-badge status-pending">Pending</span></td><td><button class="btn-classic btn-primary" onclick="triggerAction('Evaluation Survey Opened.')">Evaluate</button></td></tr>
+                <tr><td>SET 2103 - Database Management Systems Programming</td><td>Mr. Kamau</td><td><span class="status-badge status-approved">Completed</span></td><td><button class="btn-classic" disabled>Submitted</button></td></tr>
               </tbody>
             </table>
           </div>
@@ -953,7 +1089,7 @@ body {
             <table class="erp-table">
               <thead><tr><th>Department</th><th>Status</th><th>Remarks</th></tr></thead>
               <tbody>
-                <tr><td>Academic Dept (DCIT)</td><td><span class="status-badge status-approved">Cleared</span></td><td>Coursework complete</td></tr>
+                <tr><td>Academic Dept (SCIT)</td><td><span class="status-badge status-approved">Cleared</span></td><td>Coursework complete</td></tr>
                 <tr><td>Library</td><td><span class="status-badge status-approved">Cleared</span></td><td>No books owing</td></tr>
                 <tr><td>Finance Office</td><td><span class="status-badge status-pending" id="clearanceFinBadge">Pending</span></td><td id="clearanceFinRemark">Balance KSh 18,500 remaining</td></tr>
               </tbody>
@@ -1058,7 +1194,7 @@ body {
       </div>
       <div class="form-field">
         <label>M-Pesa Mobile Number:</label>
-        <input type="text" id="payPhone" value="0797510941">
+        <input type="text" id="payPhone" value="0712345678">
       </div>
     </div>
     <div class="win-dialog-footer">
@@ -1105,6 +1241,10 @@ function switchModule(moduleId, linkElem) {
     tab1.innerText = 'Create Attachment / Module Main';
     tab2.innerText = 'Logbook Entries & Records';
     tab3.innerText = 'Report Template & Documents';
+  } else if (moduleId === 'exam') {
+    tab1.innerText = 'Exam Card View & Print';
+    tab2.innerText = 'Unit Schedule & Invigilator Sign-off';
+    tab3.innerText = 'Rules & Regulations';
   } else {
     tab1.innerText = `${moduleId.toUpperCase()} View Main`;
     tab2.innerText = `Details & Audit Records`;
