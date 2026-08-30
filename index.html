@@ -1,0 +1,1239 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CUK Uni-Plus v3.5 — Student Information System</title>
+<style>
+:root {
+  --cuk-blue-dark: #1b365d;
+  --cuk-blue-mid: #2c5282;
+  --cuk-blue-header: linear-gradient(to bottom, #3b6598 0%, #204068 100%);
+  --cuk-blue-toolbar: linear-gradient(to bottom, #e6edf7 0%, #c4d4eb 100%);
+  --cuk-blue-border: #7995be;
+  --cuk-sidebar-bg: #dbe4f0;
+  --cuk-gold: #c68a00;
+  --cuk-gold-dark: #996a00;
+  --win-bg: #ecefe6;
+  --win-content-bg: #f8fafc;
+  --win-border-dark: #64748b;
+  --win-border-light: #cbd5e1;
+  --text-main: #0f172a;
+  --text-muted: #475569;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: Tahoma, Verdana, Arial, sans-serif;
+  font-size: 11px;
+  background-color: #c0cddc;
+  color: var(--text-main);
+  line-height: 1.3;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.app-header {
+  background: var(--cuk-blue-header);
+  color: #ffffff;
+  padding: 4px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 2px solid var(--cuk-gold);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.3);
+}
+
+.brand-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cuk-seal-icon {
+  width: 38px;
+  height: 38px;
+  background: #ffffff;
+  border-radius: 50%;
+  border: 2px solid var(--cuk-gold);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.cuk-seal-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.brand-text h1 {
+  margin: 0;
+  font-size: 13px;
+  font-weight: bold;
+  letter-spacing: 0.3px;
+  color: #ffffff;
+  text-shadow: 1px 1px 2px #000;
+}
+
+.brand-text small {
+  display: block;
+  font-size: 9.5px;
+  color: #ffd700;
+  font-weight: normal;
+}
+
+.user-status-box {
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 3px 8px;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.user-avatar-mini {
+  width: 28px;
+  height: 28px;
+  border: 1px solid #fff;
+  border-radius: 2px;
+  object-fit: cover;
+}
+
+.user-details {
+  font-size: 10px;
+  line-height: 1.2;
+}
+
+.user-details b {
+  color: #ffffff;
+  display: block;
+}
+
+.user-details span {
+  color: #cbd5e1;
+}
+
+.win-toolbar {
+  background: var(--cuk-blue-toolbar);
+  border-top: 1px solid #ffffff;
+  border-bottom: 1px solid var(--win-border-dark);
+  padding: 3px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  box-shadow: inset 0 -1px 2px rgba(0,0,0,0.05);
+}
+
+.toolbar-group {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.toolbar-divider {
+  width: 1px;
+  height: 18px;
+  background: #94a3b8;
+  border-right: 1px solid #ffffff;
+  margin: 0 4px;
+}
+
+/* Classic Beveled 3D ERP Buttons */
+.btn-classic {
+  font-family: Tahoma, Arial, sans-serif;
+  font-size: 10.5px;
+  color: #0f172a;
+  background: linear-gradient(to bottom, #ffffff 0%, #e2e8f0 50%, #cbd5e1 100%);
+  border: 1px solid #64748b;
+  border-radius: 2px;
+  padding: 2px 7px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  box-shadow: inset 1px 1px 0 #ffffff, inset -1px -1px 0 #94a3b8;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.btn-classic:hover {
+  background: linear-gradient(to bottom, #ffffff 0%, #eedc9c 50%, #e5b93c 100%);
+  border-color: #996a00;
+}
+
+.btn-classic:active {
+  background: #cbd5e1;
+  box-shadow: inset 1px 1px 2px rgba(0,0,0,0.4);
+}
+
+.btn-classic.btn-primary {
+  background: linear-gradient(to bottom, #fff8e1 0%, #ffe082 50%, #ffca28 100%);
+  border-color: #b388ff;
+  font-weight: bold;
+}
+
+.app-container {
+  display: flex;
+  min-height: calc(100vh - 68px);
+}
+
+.sidebar {
+  width: 200px;
+  background: var(--cuk-sidebar-bg);
+  border-right: 1px solid var(--cuk-blue-border);
+  padding: 4px;
+  flex-shrink: 0;
+  box-shadow: inset -1px 0 2px rgba(0,0,0,0.05);
+}
+
+.sidebar-header {
+  background: var(--cuk-blue-mid);
+  color: #ffffff;
+  padding: 3px 6px;
+  font-weight: bold;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border: 1px solid #1e3a8a;
+  margin-bottom: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-item {
+  margin-bottom: 1px;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 6px;
+  color: #1e293b;
+  text-decoration: none;
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  border-radius: 2px;
+  font-size: 10.5px;
+  cursor: pointer;
+}
+
+.nav-link:hover {
+  background: #e2e8f0;
+  border-color: var(--cuk-blue-mid);
+  color: #0f172a;
+}
+
+.nav-link.active {
+  background: var(--cuk-blue-mid);
+  color: #ffffff;
+  font-weight: bold;
+  border-color: #1e3a8a;
+  box-shadow: inset 1px 1px 0 rgba(255,255,255,0.2);
+}
+
+.nav-icon {
+  font-size: 12px;
+  width: 14px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.workspace {
+  flex: 1;
+  padding: 6px;
+  background: #dbe4f0;
+  overflow-x: auto;
+}
+
+.tab-container {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  border-bottom: 2px solid var(--cuk-blue-mid);
+  padding-left: 4px;
+  margin-bottom: 0;
+}
+
+.tab-btn {
+  background: linear-gradient(to bottom, #f1f5f9 0%, #cbd5e1 100%);
+  border: 1px solid #64748b;
+  border-bottom: none;
+  padding: 4px 12px;
+  font-size: 10.5px;
+  color: #334155;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+  cursor: pointer;
+  margin-bottom: -2px;
+  position: relative;
+  box-shadow: inset 0 1px 0 #ffffff;
+}
+
+.tab-btn:hover {
+  background: #f8fafc;
+}
+
+.tab-btn.active {
+  background: #ffffff;
+  color: var(--cuk-blue-dark);
+  font-weight: bold;
+  border-color: var(--cuk-blue-mid);
+  border-bottom: 2px solid #ffffff;
+  z-index: 5;
+}
+
+/* Content Window Frame */
+.window-panel {
+  background: #ffffff;
+  border: 1px solid var(--cuk-blue-mid);
+  border-top: none;
+  padding: 8px;
+  box-shadow: 2px 2px 6px rgba(0,0,0,0.15);
+  min-height: calc(100vh - 125px);
+}
+
+.page-view {
+  display: none;
+}
+
+.page-view.active {
+  display: block;
+}
+
+.panel-frame {
+  border: 1px solid #94a3b8;
+  background: #ffffff;
+  margin-bottom: 10px;
+}
+
+.panel-frame-title {
+  background: linear-gradient(to bottom, #475569 0%, #334155 100%);
+  color: #ffffff;
+  padding: 3px 8px;
+  font-weight: bold;
+  font-size: 10.5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.panel-frame-body {
+  padding: 8px;
+}
+
+/* Dense ERP Data Tables */
+.erp-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 10.5px;
+  margin-top: 4px;
+}
+
+.erp-table th {
+  background: linear-gradient(to bottom, #e2e8f0 0%, #cbd5e1 100%);
+  border: 1px solid #94a3b8;
+  padding: 3px 6px;
+  text-align: left;
+  font-weight: bold;
+  color: #1e293b;
+  white-space: nowrap;
+}
+
+.erp-table td {
+  border: 1px solid #cbd5e1;
+  padding: 3px 6px;
+  vertical-align: middle;
+}
+
+.erp-table tr:nth-child(even) td {
+  background-color: #f8fafc;
+}
+
+.erp-table tr:hover td {
+  background-color: #fef08a;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 1px 5px;
+  border-radius: 2px;
+  font-size: 9.5px;
+  font-weight: bold;
+  border: 1px solid #64748b;
+}
+
+.status-approved { background: #dcfce7; color: #166534; border-color: #86efac; }
+.status-pending { background: #fef9c3; color: #854d0e; border-color: #fde047; }
+.status-danger { background: #fee2e2; color: #991b1b; border-color: #fca5a5; }
+
+/* Grid Key-Value Forms */
+.kv-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.kv-item {
+  border: 1px solid #cbd5e1;
+  background: #f8fafc;
+  padding: 4px 6px;
+}
+
+.kv-label {
+  font-size: 9px;
+  text-transform: uppercase;
+  color: #64748b;
+  font-weight: bold;
+  display: block;
+}
+
+.kv-value {
+  font-size: 11px;
+  color: #0f172a;
+  font-weight: bold;
+}
+
+/* Modal Popup Window */
+.modal-backdrop {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+}
+
+.modal-backdrop.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.win-dialog {
+  width: 440px;
+  max-width: 92%;
+  background: #ecefe6;
+  border: 2px solid var(--cuk-blue-dark);
+  box-shadow: 4px 4px 12px rgba(0,0,0,0.3);
+  border-radius: 2px;
+}
+
+.win-dialog-header {
+  background: var(--cuk-blue-header);
+  color: #ffffff;
+  padding: 4px 8px;
+  font-weight: bold;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.win-dialog-close {
+  background: #ef4444;
+  color: #ffffff;
+  border: 1px solid #991b1b;
+  width: 16px;
+  height: 16px;
+  font-size: 10px;
+  line-height: 12px;
+  cursor: pointer;
+  text-align: center;
+  border-radius: 2px;
+}
+
+.win-dialog-body {
+  padding: 10px;
+  background: #ffffff;
+  border: 1px solid #94a3b8;
+  margin: 6px;
+}
+
+.win-dialog-footer {
+  padding: 6px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+  background: #ecefe6;
+}
+
+.form-field {
+  margin-bottom: 8px;
+}
+
+.form-field label {
+  display: block;
+  font-weight: bold;
+  font-size: 10px;
+  margin-bottom: 2px;
+}
+
+.form-field input, .form-field select {
+  width: 100%;
+  padding: 3px 5px;
+  font-size: 11px;
+  font-family: Tahoma, Arial, sans-serif;
+  border: 1px solid #64748b;
+  border-radius: 1px;
+}
+
+/* Responsive Collapsible Navigation for Tablets/Mobile */
+.sidebar-toggle {
+  display: none;
+  background: var(--cuk-gold);
+  border: 1px solid var(--cuk-gold-dark);
+  color: #000;
+  padding: 2px 6px;
+  font-size: 11px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .sidebar-toggle { display: inline-block; }
+  .app-container { flex-direction: column; }
+  .sidebar {
+    width: 100%;
+    display: none;
+    border-right: none;
+    border-bottom: 2px solid var(--cuk-blue-border);
+  }
+  .sidebar.show { display: block; }
+  .workspace { padding: 4px; }
+  .user-details span { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="app-header">
+  <div class="brand-section">
+    <button class="sidebar-toggle" onclick="toggleSidebar()">☰ Menu</button>
+    <div class="cuk-seal-icon" title="CUK Crest">
+      <img src="https://i.pinimg.com/736x/36/b0/2d/36b02d11a8a7dca83c369c478057d48a.jpg" 
+           alt="CUK Logo" 
+           onerror="this.onerror=null; this.src='https://placehold.co/100x100/1b365d/ffffff?text=CUK';">
+    </div>
+    <div class="brand-text">
+      <h1>The Co-operative University of Kenya</h1>
+      <small>Integrated University Information Management System (Uni-Plus v3.5)</small>
+    </div>
+  </div>
+
+  <div class="user-status-box">
+    <img src="https://i.pinimg.com/736x/8c/42/91/8c42919d6e0b1ea21c8c639259adfd5d.jpg" 
+         alt="Passport" 
+         class="user-avatar-mini"
+         onerror="this.src='https://placehold.co/100x100/1b365d/ffffff?text=HCN'">
+    <div class="user-details">
+      <b>Happy Caleb Ndivo</b>
+      <span>C028/404604/2024 · BSc SE</span>
+    </div>
+  </div>
+</div>
+
+<div class="win-toolbar">
+  <div class="toolbar-group">
+    <button class="btn-classic" onclick="window.print()">📄 Print Letter / Form</button>
+    <button class="btn-classic" onclick="triggerAction('Apply Application Submitted')">📄 Apply</button>
+    <button class="btn-classic" onclick="triggerAction('Record View Loaded')">📄 View</button>
+    <button class="btn-classic" onclick="triggerAction('Search Index Query Active')">🔍 Find Record</button>
+    <div class="toolbar-divider"></div>
+    <button class="btn-classic" onclick="navStep(-1)">◀ Prev</button>
+    <button class="btn-classic" onclick="navStep(1)">▶ Next</button>
+    <button class="btn-classic" onclick="location.reload()">↻ Refresh</button>
+  </div>
+  <div class="toolbar-group">
+    <span style="font-size: 10px; color: #334155;">Session: <b>2025/2026-SEM1</b></span>
+    <button class="btn-classic btn-primary" onclick="openModal('paymentModal')">₵ E-Payment (M-Pesa)</button>
+  </div>
+</div>
+
+<div class="app-container">
+  <aside class="sidebar" id="appSidebar">
+    <div class="sidebar-header">
+      <span>Portal Modules</span>
+      <span style="font-size:9px;">v3.5</span>
+    </div>
+    
+    <ul class="nav-menu">
+      <li class="nav-item">
+        <button class="nav-link active" onclick="switchModule('logbook', this)"><span class="nav-icon">▥</span>Industrial Attachment</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" onclick="switchModule('profile', this)"><span class="nav-icon">👤</span>My Profile</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" onclick="switchModule('units', this)"><span class="nav-icon">📋</span>Unit Registration</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" onclick="switchModule('finance', this)"><span class="nav-icon">💰</span>Finance Registration</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" onclick="switchModule('fees', this)"><span class="nav-icon">📄</span>Fees Statement</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" onclick="switchModule('hostel', this)"><span class="nav-icon">🏠</span>Hostel Room Booking</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" onclick="switchModule('exam', this)"><span class="nav-icon">🪪</span>My Exam Card</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" onclick="switchModule('results', this)"><span class="nav-icon">📊</span>Exam Results</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" onclick="switchModule('evaluation', this)"><span class="nav-icon">⭐</span>Lecturer Evaluation</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" onclick="switchModule('clearance', this)"><span class="nav-icon">✓</span>Clearance Application</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" onclick="switchModule('graduation', this)"><span class="nav-icon">🎓</span>Graduation Application</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" onclick="switchModule('leave', this)"><span class="nav-icon">↗</span>Academic Leave</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" onclick="switchModule('discipline', this)"><span class="nav-icon">⚠️</span>Disciplinary Cases</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" onclick="switchModule('special', this)"><span class="nav-icon">❗</span>Supplementary/Special</button>
+      </li>
+      <li class="nav-item">
+        <button class="nav-link" onclick="openModal('paymentModal')"><span class="nav-icon">💳</span>E-Payment Portal</button>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#" onclick="triggerAction('Redirecting to CUK E-Masomo Moodle LMS...'); return false;"><span class="nav-icon">🌐</span>E-Masomo LMS</a>
+      </li>
+    </ul>
+  </aside>
+
+  <main class="workspace">
+    
+    <!-- Tab Controls Bar -->
+    <div class="tab-container" id="tabContainer">
+      <button class="tab-btn active" id="tab-primary" onclick="switchTab('primary')">Create Attachment / Module Main</button>
+      <button class="tab-btn" id="tab-secondary" onclick="switchTab('secondary')">Logbook Entries & Records</button>
+      <button class="tab-btn" id="tab-tertiary" onclick="switchTab('tertiary')">Report Template & Documents</button>
+    </div>
+
+    <!-- Main Content Panel Window -->
+    <div class="window-panel">
+      
+      <!-- ================= 1. INDUSTRIAL ATTACHMENT / LOGBOOK MODULE ================= -->
+      <section id="logbook" class="page-view active">
+        
+        <!-- Tab Sub-content 1 -->
+        <div id="logbook-sub-primary" class="sub-tab-content">
+          <div class="panel-frame">
+            <div class="panel-frame-title">
+              <span>Industrial Attachment Registration & Verification</span>
+              <span>DCIT Department</span>
+            </div>
+            <div class="panel-frame-body">
+              <div class="kv-grid">
+                <div class="kv-item"><span class="kv-label">Student Name</span><span class="kv-value">Happy Caleb Ndivo</span></div>
+                <div class="kv-item"><span class="kv-label">Registration No.</span><span class="kv-value">C028/404604/2024</span></div>
+                <div class="kv-item"><span class="kv-label">Programme</span><span class="kv-value">BSc Software Engineering</span></div>
+                <div class="kv-item"><span class="kv-label">Host Placement</span><span class="kv-value">Safaricom PLC (Engineering Lab)</span></div>
+                <div class="kv-item"><span class="kv-label">Field Supervisor</span><span class="kv-value">Eng. Dennis Mwangi</span></div>
+                <div class="kv-item"><span class="kv-label">Academic Assessor</span><span class="kv-value">Dr. Eliud K. (CUK DCIT)</span></div>
+              </div>
+
+              <div style="margin-top: 6px; display: flex; gap: 4px;">
+                <button class="btn-classic" onclick="window.print()">📄 Print Attachment Recommendation Letter</button>
+                <button class="btn-classic" onclick="triggerAction('Attachment Insurance Cover Downloaded')">📄 View Insurance Cover</button>
+                <button class="btn-classic btn-primary" onclick="openModal('logbookModal')">➕ Add New Weekly Logbook Entry</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab Sub-content 2 -->
+        <div id="logbook-sub-secondary" class="sub-tab-content" style="display:none;">
+          <div class="panel-frame">
+            <div class="panel-frame-title">
+              <span>Weekly Work Logbook Summary</span>
+              <span>10 Weeks Required</span>
+            </div>
+            <div class="panel-frame-body">
+              <table class="erp-table">
+                <thead>
+                  <tr>
+                    <th style="width:60px;">Week #</th>
+                    <th>Tasks & Summary of Field Work Executed</th>
+                    <th style="width:110px;">Supervisor Sign</th>
+                    <th style="width:90px;">Status</th>
+                    <th style="width:80px;">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="logbookRows">
+                  <tr>
+                    <td><b>Week 1</b></td>
+                    <td>Orientation, Dev Environment Setup, CI/CD Pipeline Integration & Git Workflow.</td>
+                    <td>Verified (D.M.)</td>
+                    <td><span class="status-badge status-approved">Approved</span></td>
+                    <td><button class="btn-classic" onclick="openModal('logbookModal')">Manage</button></td>
+                  </tr>
+                  <tr>
+                    <td><b>Week 2</b></td>
+                    <td>API Controller Refactoring, RESTful Services Debugging & Microservices Unit Tests.</td>
+                    <td>Verified (D.M.)</td>
+                    <td><span class="status-badge status-approved">Approved</span></td>
+                    <td><button class="btn-classic" onclick="openModal('logbookModal')">Manage</button></td>
+                  </tr>
+                  <tr>
+                    <td><b>Week 3</b></td>
+                    <td>Database Schema Migration, PostgreSQL Index Optimization & Redis Caching Layer.</td>
+                    <td>Verified (D.M.)</td>
+                    <td><span class="status-badge status-approved">Approved</span></td>
+                    <td><button class="btn-classic" onclick="openModal('logbookModal')">Manage</button></td>
+                  </tr>
+                  <tr>
+                    <td><b>Week 4</b></td>
+                    <td>Frontend UI Component Architecture, Form Validation & State Management Audit.</td>
+                    <td>Pending Signoff</td>
+                    <td><span class="status-badge status-pending">In Review</span></td>
+                    <td><button class="btn-classic" onclick="openModal('logbookModal')">Manage</button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab Sub-content 3 -->
+        <div id="logbook-sub-tertiary" class="sub-tab-content" style="display:none;">
+          <div class="panel-frame">
+            <div class="panel-frame-title">
+              <span>Final Industrial Attachment Technical Report Template</span>
+            </div>
+            <div class="panel-frame-body">
+              <p style="margin: 0 0 6px 0;">Official CUK SCIT Guidelines for Attachment Report Structure:</p>
+              <ul>
+                <li>Chapter 1: Organization Overview & Systems Architecture</li>
+                <li>Chapter 2: Technical Duties & Software Projects Handled</li>
+                <li>Chapter 3: Problem Solving, Challenges & Solutions Implemented</li>
+                <li>Chapter 4: Skill Acquisition & Recommendations to University</li>
+              </ul>
+              <button class="btn-classic btn-primary" onclick="triggerAction('Downloading Official CUK Attachment Report Template DOCX...')">📥 Download Official Report Template (.DOCX)</button>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ================= 2. PROFILE MODULE ================= -->
+      <section id="profile" class="page-view">
+        <div class="panel-frame">
+          <div class="panel-frame-title">Student Administrative Profile</div>
+          <div class="panel-frame-body">
+            <div style="display: flex; gap: 12px; align-items: flex-start;">
+              <img src="https://i.pinimg.com/736x/8c/42/91/8c42919d6e0b1ea21c8c639259adfd5d.jpg" 
+                   alt="Passport Photo" 
+                   style="width: 100px; height: 120px; border: 1px solid #64748b; padding: 2px; background: #fff;"
+                   onerror="this.src='https://placehold.co/100x120/1b365d/ffffff?text=Passport'">
+              
+              <div style="flex: 1;" class="kv-grid">
+                <div class="kv-item"><span class="kv-label">Full Name</span><span class="kv-value">Happy Caleb Ndivo</span></div>
+                <div class="kv-item"><span class="kv-label">Reg Number</span><span class="kv-value">C028/404604/2024</span></div>
+                <div class="kv-item"><span class="kv-label">Degree</span><span class="kv-value">BSc Software Engineering</span></div>
+                <div class="kv-item"><span class="kv-label">School</span><span class="kv-value">Computing & Mathematics</span></div>
+                <div class="kv-item"><span class="kv-label">Year of Study</span><span class="kv-value">Year 2, Semester 2</span></div>
+                <div class="kv-item"><span class="kv-label">Campus</span><span class="kv-value">Main Campus (Karen)</span></div>
+                <div class="kv-item"><span class="kv-label">Email</span><span class="kv-value">happy24.ndivo@student.cuk.ac.ke</span></div>
+                <div class="kv-item"><span class="kv-label">National ID</span><span class="kv-value">192375737</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 3. UNIT REGISTRATION MODULE ================= -->
+      <section id="units" class="page-view">
+        <div class="panel-frame">
+          <div class="panel-frame-title">Course Unit Registration — Year 2 Semester 1</div>
+          <div class="panel-frame-body">
+            <table class="erp-table">
+              <thead>
+                <tr>
+                  <th>Unit Code</th>
+                  <th>Unit Title</th>
+                  <th>Type</th>
+                  <th>Credits</th>
+                  <th>Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td><b>SET 2101</b></td><td>Software Architecture & Design Patterns</td><td>Core</td><td>3.0</td><td><span class="status-badge status-approved">Confirmed</span></td><td><button class="btn-classic" disabled>Booked</button></td></tr>
+                <tr><td><b>SET 2102</b></td><td>Object-Oriented Software Engineering</td><td>Core</td><td>3.0</td><td><span class="status-badge status-approved">Confirmed</span></td><td><button class="btn-classic" disabled>Booked</button></td></tr>
+                <tr><td><b>SET 2103</b></td><td>Data Structures & Algorithms</td><td>Core</td><td>3.0</td><td><span class="status-badge status-approved">Confirmed</span></td><td><button class="btn-classic" disabled>Booked</button></td></tr>
+                <tr><td><b>SET 2104</b></td><td>Database Systems & Modeling</td><td>Core</td><td>3.0</td><td><span class="status-badge status-approved">Confirmed</span></td><td><button class="btn-classic" disabled>Booked</button></td></tr>
+                <tr><td><b>SET 2105</b></td><td>Web Application Frameworks</td><td>Core</td><td>3.0</td><td><span class="status-badge status-approved">Confirmed</span></td><td><button class="btn-classic" disabled>Booked</button></td></tr>
+                <tr><td><b>SET 2106</b></td><td>Mobile Application Development</td><td>Core</td><td>3.0</td><td><span class="status-badge status-approved">Confirmed</span></td><td><button class="btn-classic" disabled>Booked</button></td></tr>
+                <tr><td><b>SET 2107</b></td><td>Software Quality Assurance & Testing</td><td>Core</td><td>3.0</td><td><span class="status-badge status-approved">Confirmed</span></td><td><button class="btn-classic" disabled>Booked</button></td></tr>
+              </tbody>
+            </table>
+            <div style="margin-top: 8px;">
+              <button class="btn-classic btn-primary" onclick="triggerAction('Unit Selection Confirmed and Saved.')">💾 Confirm & Save Unit Booking</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 4. FINANCE REGISTRATION MODULE ================= -->
+      <section id="finance" class="page-view">
+        <div class="panel-frame">
+          <div class="panel-frame-title">Finance Registration Approval</div>
+          <div class="panel-frame-body">
+            <div class="kv-grid">
+              <div class="kv-item"><span class="kv-label">Min Threshold (50%)</span><span class="kv-value">KSh 42,000</span></div>
+              <div class="kv-item"><span class="kv-label">Total Amount Paid</span><span class="kv-value" style="color:#166534;" id="finPaidAmount">KSh 65,500</span></div>
+              <div class="kv-item"><span class="kv-label">Current Balance</span><span class="kv-value" style="color:#991b1b;" id="finBalAmount">KSh 18,500</span></div>
+              <div class="kv-item"><span class="kv-label">Finance Clearance Status</span><span class="kv-value"><span class="status-badge status-approved">APPROVED FOR SEM 1</span></span></div>
+            </div>
+            <div style="margin-top: 8px;">
+              <button class="btn-classic btn-primary" onclick="openModal('paymentModal')">₵ Pay Balance via M-Pesa</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 5. FEES STATEMENT MODULE ================= -->
+      <section id="fees" class="page-view">
+        <div class="panel-frame">
+          <div class="panel-frame-title">
+            <span>Student Financial Ledger Statement</span>
+            <button class="btn-classic" onclick="window.print()">🖨 Print Statement</button>
+          </div>
+          <div class="panel-frame-body">
+            <table class="erp-table">
+              <thead>
+                <tr>
+                  <th>Ref No.</th>
+                  <th>Posting Date</th>
+                  <th>Transaction Description</th>
+                  <th>Debit (KSh)</th>
+                  <th>Credit (KSh)</th>
+                  <th>Balance (KSh)</th>
+                </tr>
+              </thead>
+              <tbody id="feeLedgerRows">
+                <tr><td>FEE-2024-S1</td><td>10 Aug 2024</td><td>Year 1 Semester 1 Invoiced Tuition</td><td>84,000.00</td><td>—</td><td>84,000.00</td></tr>
+                <tr><td>MP-QK89211</td><td>15 Aug 2024</td><td>Lipa na M-Pesa Payment (Paybill 400222)</td><td>—</td><td>84,000.00</td><td>0.00</td></tr>
+                <tr><td>FEE-2025-S1</td><td>01 Aug 2026</td><td>Year 2 Semester 1 Invoiced Tuition</td><td>84,000.00</td><td>—</td><td>84,000.00</td></tr>
+                <tr><td>MP-RL90123</td><td>18 Aug 2026</td><td>Lipa na M-Pesa Payment (Paybill 400222)</td><td>—</td><td>65,500.00</td><td><b>18,500.00</b></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 6. HOSTEL BOOKING MODULE ================= -->
+      <section id="hostel" class="page-view">
+        <div class="panel-frame">
+          <div class="panel-frame-title">Hostel Room Allocation & Reservation</div>
+          <div class="panel-frame-body">
+            <table class="erp-table">
+              <thead>
+                <tr>
+                  <th>Hostel Name</th>
+                  <th>Block</th>
+                  <th>Room No.</th>
+                  <th>Bed Space</th>
+                  <th>Fee Rate</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td><b>Karen Residence</b></td><td>Block A</td><td>Room 301</td><td>Bed 2</td><td>KSh 18,000</td><td><button class="btn-classic" onclick="bookRoom('Karen Residence A-301')">Select Bed</button></td></tr>
+                <tr><td><b>Karen Residence</b></td><td>Block B</td><td>Room 204</td><td>Bed 1</td><td>KSh 15,000</td><td><button class="btn-classic btn-primary" onclick="bookRoom('Karen Residence B-204')">Select Bed</button></td></tr>
+                <tr><td><b>Ruaka Hall</b></td><td>Main Wing</td><td>Room 108</td><td>Bed 2</td><td>KSh 22,000</td><td><button class="btn-classic" onclick="bookRoom('Ruaka Hall 108')">Select Bed</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 7. EXAM CARD MODULE ================= -->
+      <section id="exam" class="page-view">
+        <div class="panel-frame">
+          <div class="panel-frame-title">
+            <span>Official Student Examination Card — Semester 1</span>
+            <button class="btn-classic" onclick="window.print()">🖨 Print Card</button>
+          </div>
+          <div class="panel-frame-body">
+            <div style="border:1px stroke #000; padding:10px; background:#fff;">
+              <div style="text-align:center; border-bottom:2px solid #1b365d; padding-bottom:4px; margin-bottom:6px;">
+                <b style="font-size:12px; color:#1b365d;">THE CO-OPERATIVE UNIVERSITY OF KENYA</b><br>
+                <span style="font-size:10px; font-weight:bold;">OFFICIAL EXAMINATION ADMIT CARD</span>
+              </div>
+              <div class="kv-grid">
+                <div class="kv-item"><span class="kv-label">Name</span><span class="kv-value">Happy Caleb Ndivo</span></div>
+                <div class="kv-item"><span class="kv-label">Reg No</span><span class="kv-value">C028/404604/2024</span></div>
+                <div class="kv-item"><span class="kv-label">Course</span><span class="kv-value">BSc Software Engineering</span></div>
+                <div class="kv-item"><span class="kv-label">Status</span><span class="kv-value"><span class="status-badge status-approved">CLEARED & STAMPED</span></span></div>
+              </div>
+              <table class="erp-table" style="margin-top:6px;">
+                <thead><tr><th>Code</th><th>Subject Title</th></tr></thead>
+                <tbody>
+                  <tr><td>SET 2101</td><td>Software Architecture & Design Patterns</td></tr>
+                  <tr><td>SET 2102</td><td>Object-Oriented Software Engineering</td></tr>
+                  <tr><td>SET 2103</td><td>Data Structures & Algorithms</td></tr>
+                  <tr><td>SET 2104</td><td>Database Systems & Modeling</td><td></tr>
+                  <tr><td>SET 2105</td><td>Web Application Frameworks</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 8. EXAM RESULTS MODULE ================= -->
+      <section id="results" class="page-view">
+        <div class="panel-frame">
+          <div class="panel-frame-title">Academic Performance Transcript</div>
+          <div class="panel-frame-body">
+            <div style="margin-bottom:6px;"><b>CGPA: 3.78 / 4.00</b> — First Class Candidate</div>
+            <table class="erp-table">
+              <thead><tr><th>Code</th><th>Title</th><th>CAT</th><th>Exam</th><th>Total</th><th>Grade</th></tr></thead>
+              <tbody>
+                <tr><td>BSSE 2201</td><td>Database Management Systems Programming</td><td>28</td><td>58</td><td>86%</td><td><b>A</b></td></tr>
+                <tr><td>BMAT 2202</td><td>Discrete Mathematics for Computing</td><td>22</td><td>50</td><td>72%</td><td><b>B</b></td></tr>
+                <tr><td>SET 1203</td><td>Computer Systems Architecture</td><td>24</td><td>51</td><td>75%</td><td><b>A</b></td></tr>
+                <tr><td>BBIT 1204</td><td>Entreprenuership Skills</td><td>25</td><td>57</td><td>82%</td><td><b>A</b></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 9. LECTURER EVALUATION MODULE ================= -->
+      <section id="evaluation" class="page-view">
+        <div class="panel-frame">
+          <div class="panel-frame-title">Online Teaching Evaluation</div>
+          <div class="panel-frame-body">
+            <table class="erp-table">
+              <thead><tr><th>Unit Code & Name</th><th>Lecturer</th><th>Status</th><th>Action</th></tr></thead>
+              <tbody>
+                <tr><td>SET 2102 - Software Architecture</td><td>Dr. Omondi</td><td><span class="status-badge status-pending">Pending</span></td><td><button class="btn-classic btn-primary" onclick="triggerAction('Evaluation Survey Opened.')">Evaluate</button></td></tr>
+                <tr><td>SET 2103 - Data Structures</td><td>Mr. Kamau</td><td><span class="status-badge status-approved">Completed</span></td><td><button class="btn-classic" disabled>Submitted</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 10. CLEARANCE MODULE ================= -->
+      <section id="clearance" class="page-view">
+        <div class="panel-frame">
+          <div class="panel-frame-title">Student Clearance Tracking</div>
+          <div class="panel-frame-body">
+            <table class="erp-table">
+              <thead><tr><th>Department</th><th>Status</th><th>Remarks</th></tr></thead>
+              <tbody>
+                <tr><td>Academic Dept (DCIT)</td><td><span class="status-badge status-approved">Cleared</span></td><td>Coursework complete</td></tr>
+                <tr><td>Library</td><td><span class="status-badge status-approved">Cleared</span></td><td>No books owing</td></tr>
+                <tr><td>Finance Office</td><td><span class="status-badge status-pending" id="clearanceFinBadge">Pending</span></td><td id="clearanceFinRemark">Balance KSh 18,500 remaining</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 11. GRADUATION MODULE ================= -->
+      <section id="graduation" class="page-view">
+        <div class="panel-frame">
+          <div class="panel-frame-title">Graduation Application Portal</div>
+          <div class="panel-frame-body">
+            <p style="margin:0;">Student is currently in Year 2. Graduation clearance opens in Final Year (Year 4).</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 12. ACADEMIC LEAVE MODULE ================= -->
+      <section id="leave" class="page-view">
+        <div class="panel-frame">
+          <div class="panel-frame-title">Academic Deferment / Leave</div>
+          <div class="panel-frame-body">
+            <p style="margin:0 0 6px 0;">No leave applications active.</p>
+            <button class="btn-classic" onclick="triggerAction('Academic leave portal is currently locked.')">Apply for Academic Leave</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 13. DISCIPLINARY MODULE ================= -->
+      <section id="discipline" class="page-view">
+        <div class="panel-frame">
+          <div class="panel-frame-title">Disciplinary Records</div>
+          <div class="panel-frame-body">
+            <div style="background:#dcfce7; padding:6px; border:1px solid #86efac; color:#166534; font-weight:bold;">
+              ✔ No disciplinary infractions or pending cases recorded.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 14. SUPPLEMENTARY / SPECIAL MODULE ================= -->
+      <section id="special" class="page-view">
+        <div class="panel-frame">
+          <div class="panel-frame-title">Supplementary & Special Exams</div>
+          <div class="panel-frame-body">
+            <div style="background:#dcfce7; padding:6px; border:1px solid #86efac; color:#166534; font-weight:bold;">
+              ✔ All taken units cleared successfully. No supplementary exams required.
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<!-- Logbook Entry Modal Dialog -->
+<div class="modal-backdrop" id="logbookModal">
+  <div class="win-dialog">
+    <div class="win-dialog-header">
+      <span>Logbook Entry Management — Uni-Plus v3.5</span>
+      <button class="win-dialog-close" onclick="closeModal('logbookModal')">✕</button>
+    </div>
+    <div class="win-dialog-body">
+      <div class="form-field">
+        <label>Select Work Week:</label>
+        <select id="logWeek">
+          <option>Week 4 (Current Active)</option>
+          <option>Week 5</option>
+          <option>Week 6</option>
+        </select>
+      </div>
+      <div class="form-field">
+        <label>Summary of Technical Tasks Completed:</label>
+        <textarea id="logText" rows="4" style="width:100%; border:1px solid #64748b; font-family:Tahoma, Arial; font-size:11px; padding:4px;">Implemented OAuth2 Authentication, JWT token refresh flow & API security middleware.</textarea>
+      </div>
+    </div>
+    <div class="win-dialog-footer">
+      <button class="btn-classic" onclick="closeModal('logbookModal')">Cancel</button>
+      <button class="btn-classic btn-primary" onclick="saveLogbook()">Save & Submit Entry</button>
+    </div>
+  </div>
+</div>
+
+<!-- M-Pesa Payment Dialog -->
+<div class="modal-backdrop" id="paymentModal">
+  <div class="win-dialog">
+    <div class="win-dialog-header">
+      <span>Lipa Na M-Pesa — Fee Direct Integration</span>
+      <button class="win-dialog-close" onclick="closeModal('paymentModal')">✕</button>
+    </div>
+    <div class="win-dialog-body">
+      <div style="background:#f1f5f9; padding:6px; border:1px solid #cbd5e1; margin-bottom:8px;">
+        <div><b>Paybill:</b> 400222 (CUK Student Fees)</div>
+        <div><b>Account:</b> C0284046042024</div>
+        <div><b>Current Fee Balance:</b> <span id="dialogBal">KSh 18,500</span></div>
+      </div>
+      <div class="form-field">
+        <label>Payment Amount (KSh):</label>
+        <input type="number" id="payAmt" value="18500">
+      </div>
+      <div class="form-field">
+        <label>M-Pesa Mobile Number:</label>
+        <input type="text" id="payPhone" value="0797510941">
+      </div>
+    </div>
+    <div class="win-dialog-footer">
+      <button class="btn-classic" onclick="closeModal('paymentModal')">Cancel</button>
+      <button class="btn-classic btn-primary" onclick="processPayment()">Send M-Pesa STK Prompt</button>
+    </div>
+  </div>
+</div>
+
+<!-- Notification Banner Bar at bottom -->
+<div id="statusNotification" style="position:fixed; bottom:0; left:0; right:0; background:#1b365d; color:#fff; padding:3px 10px; font-size:10px; display:flex; justify-content:space-between; border-top:1px solid var(--cuk-gold); z-index:999;">
+  <span>Status: Ready · Parity Uni-Plus v3.5 System Operational</span>
+  <span id="notifyMsg" style="color:#ffd700; font-weight:bold;"></span>
+</div>
+
+<script>
+let feeBalance = 18500;
+let feePaid = 65500;
+
+function switchModule(moduleId, linkElem) {
+  // Hide all module views
+  document.querySelectorAll('.page-view').forEach(view => {
+    view.classList.remove('active');
+  });
+
+  // Activate targeted view
+  const target = document.getElementById(moduleId);
+  if (target) {
+    target.classList.add('active');
+  }
+
+  // Update sidebar active link
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+  if (linkElem) {
+    linkElem.classList.add('active');
+  }
+
+  // Set tab buttons corresponding to module
+  const tab1 = document.getElementById('tab-primary');
+  const tab2 = document.getElementById('tab-secondary');
+  const tab3 = document.getElementById('tab-tertiary');
+
+  if (moduleId === 'logbook') {
+    tab1.innerText = 'Create Attachment / Module Main';
+    tab2.innerText = 'Logbook Entries & Records';
+    tab3.innerText = 'Report Template & Documents';
+  } else {
+    tab1.innerText = `${moduleId.toUpperCase()} View Main`;
+    tab2.innerText = `Details & Audit Records`;
+    tab3.innerText = `Export & System Notices`;
+  }
+
+  switchTab('primary');
+  showNotice(`Switched to module: ${moduleId.toUpperCase()}`);
+}
+
+function switchTab(tabType) {
+  document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+  document.getElementById(`tab-${tabType}`).classList.add('active');
+
+  // Sub tab toggling for logbook
+  const sub1 = document.getElementById('logbook-sub-primary');
+  const sub2 = document.getElementById('logbook-sub-secondary');
+  const sub3 = document.getElementById('logbook-sub-tertiary');
+
+  if (sub1 && sub2 && sub3) {
+    sub1.style.display = tabType === 'primary' ? 'block' : 'none';
+    sub2.style.display = tabType === 'secondary' ? 'block' : 'none';
+    sub3.style.display = tabType === 'tertiary' ? 'block' : 'none';
+  }
+}
+
+function toggleSidebar() {
+  document.getElementById('appSidebar').classList.toggle('show');
+}
+
+function openModal(modalId) {
+  document.getElementById(modalId).classList.add('open');
+}
+
+function closeModal(modalId) {
+  document.getElementById(modalId).classList.remove('open');
+}
+
+function showNotice(msg) {
+  const elem = document.getElementById('notifyMsg');
+  elem.innerText = msg;
+  setTimeout(() => {
+    elem.innerText = '';
+  }, 4000);
+}
+
+function triggerAction(actionName) {
+  showNotice(`Executing System Action: ${actionName}`);
+}
+
+function saveLogbook() {
+  const text = document.getElementById('logText').value;
+  closeModal('logbookModal');
+  showNotice('Logbook entry submitted successfully to supervisor!');
+  
+  const tbody = document.getElementById('logbookRows');
+  if (tbody) {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td><b>Week 5</b></td>
+      <td>${text}</td>
+      <td>Pending Signoff</td>
+      <td><span class="status-badge status-pending">In Review</span></td>
+      <td><button class="btn-classic" onclick="openModal('logbookModal')">Manage</button></td>
+    `;
+    tbody.appendChild(row);
+  }
+}
+
+function bookRoom(roomDetails) {
+  showNotice(`Room selection confirmed: ${roomDetails}`);
+}
+
+function processPayment() {
+  const amt = parseFloat(document.getElementById('payAmt').value);
+  const phone = document.getElementById('payPhone').value;
+
+  if (!amt || amt <= 0) {
+    showNotice('Invalid Payment Amount Entered.');
+    return;
+  }
+
+  closeModal('paymentModal');
+  showNotice(`STK Prompt sent to ${phone}. Processing KSh ${amt}...`);
+
+  setTimeout(() => {
+    feeBalance = Math.max(0, feeBalance - amt);
+    feePaid += amt;
+
+    const formattedBal = `KSh ${feeBalance.toLocaleString()}.00`;
+    const formattedPaid = `KSh ${feePaid.toLocaleString()}.00`;
+
+    document.getElementById('finBalAmount').innerText = formattedBal;
+    document.getElementById('finPaidAmount').innerText = formattedPaid;
+    document.getElementById('dialogBal').innerText = formattedBal;
+
+    if (feeBalance === 0) {
+      const badge = document.getElementById('clearanceFinBadge');
+      const remark = document.getElementById('clearanceFinRemark');
+      if (badge && remark) {
+        badge.className = 'status-badge status-approved';
+        badge.innerText = 'Cleared';
+        remark.innerText = 'Fees fully paid';
+      }
+    }
+
+    // Ledger row append
+    const ref = 'MP-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+    const ledger = document.getElementById('feeLedgerRows');
+    if (ledger) {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${ref}</td>
+        <td>Today</td>
+        <td>Lipa na M-Pesa Payment (${phone})</td>
+        <td>—</td>
+        <td>${amt.toLocaleString()}.00</td>
+        <td><b>${feeBalance.toLocaleString()}.00</b></td>
+      `;
+      ledger.appendChild(tr);
+    }
+
+    showNotice(`Payment reference ${ref} verified and posted!`);
+  }, 1400);
+}
+
+function navStep(dir) {
+  showNotice(`Navigating dataset index record (${dir > 0 ? '+1' : '-1'})`);
+}
+</script>
+</body>
+</html>
